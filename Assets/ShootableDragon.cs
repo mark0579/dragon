@@ -6,10 +6,13 @@ public class ShootableDragon : MonoBehaviour
 
 	//The box's current health point total
 	public float currentHealth = 3;
+	Animator anim;
+
 
     void Start()
     {
         gameObject.SetActive(true);
+		anim = GetComponent<Animator>();
     }
 
     public void Damage(float damageAmount)
@@ -21,12 +24,20 @@ public class ShootableDragon : MonoBehaviour
 		if (currentHealth <= 0)
 		{
 			//if health has fallen below zero, deactivate it 
-			gameObject.SetActive(false);
+			
+			anim.SetTrigger("Die");
+			//Invoke("Die", 20f);
+			
 		}
 	}
 	public float GetCurrentHealth()
 	{
 		return currentHealth;
 	}
+
+	public void Die()
+	{
+        gameObject.SetActive(false);
+    }
 }
 
