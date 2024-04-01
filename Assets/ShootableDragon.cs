@@ -7,7 +7,12 @@ public class ShootableDragon : MonoBehaviour
 	//The box's current health point total
 	public float currentHealth = 3;
 
-	public void Damage(float damageAmount)
+    void Start()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Damage(float damageAmount)
 	{
 		//subtract damage amount when Damage function is called
 		currentHealth -= damageAmount;
