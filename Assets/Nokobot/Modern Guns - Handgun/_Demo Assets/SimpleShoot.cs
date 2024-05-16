@@ -19,6 +19,7 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Specify time to destory the casing object")] [SerializeField] private float destroyTimer = 2f;
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
+    [Tooltip("Bullet Lifetime")][SerializeField] private float bulletLifetime = 3f;
 
     //RayCast 추가
     public Camera fpsCamera;         // 플레이어가 조준하는 위치를 결정
@@ -32,6 +33,12 @@ public class SimpleShoot : MonoBehaviour
     //public ParticleSystem muzzleFlash;  // 총구 이펙트 파티클
     public GameObject impactEffect;     // 적 피격 파티클 (혈흔, 총알이 박힌 자국 등)
 
+
+    void Awake()
+    {
+        // Awake 함수에서 get_main 호출
+        fpsCamera = Camera.main;
+    }
 
     void Start()
     {
@@ -54,7 +61,7 @@ public class SimpleShoot : MonoBehaviour
 
 
     //This function creates the bullet behavior
-    void Shoot()
+    public bool Shoot()
     {
         RaycastHit hit; // 레이에서 반환된 정보를 보유하는 변수
         if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, range))
@@ -95,12 +102,19 @@ public class SimpleShoot : MonoBehaviour
             Destroy(tempFlash, destroyTimer);
         }
 
-        //cancels if there's no bullet prefeb
+        // 총알 프리팹이 없으면 취소
         if (!bulletPrefab)
-        { return; }
+        {
+            return false; // 총알 발사 실패
+        }
 
-        // Create a bullet and add force on it in direction of the barrel
-        Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation).GetComponent<Rigidbody>().AddForce(barrelLocation.forward * shotPower);
+        // 총알을 생성하고 총구 방향으로 힘을 가합니다.
+        GameObject bullet = Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation) as GameObject;
+        bullet.GetComponent<Rigidbody>().AddForce(barrelLocation.forward * shotPower);
+        // 총알 파괴 타이머 설정
+        Destroy(bullet, bulletLifetime);
+
+        return true; // 총알 발사 완료
 
     }
 
@@ -122,5 +136,4 @@ public class SimpleShoot : MonoBehaviour
         //Destroy casing after X seconds
         Destroy(tempCasing, destroyTimer);
     }
-
 }

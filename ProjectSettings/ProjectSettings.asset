@@ -737,7 +737,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: NIANTIC_LIGHTSHIP_AR_LOADER_ENABLED
+    Android: NIANTIC_LIGHTSHIP_AR_LOADER_ENABLED;FUSION_WEAVER;FUSION2
     Standalone: NIANTIC_LIGHTSHIP_AR_LOADER_ENABLED
   additionalCompilerArguments: {}
   platformArchitecture: {}
@@ -762,7 +762,7 @@ PlayerSettings:
     tvOS: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
-  allowUnsafeCode: 0
+  allowUnsafeCode: 1
   useDeterministicCompilation: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
